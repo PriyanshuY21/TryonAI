@@ -11,8 +11,8 @@ function App() {
   const [selectedImage, setSelectedImage] = useState(null); 
   const clothesSelectorRef = useRef(null);
   const uploadRef = useRef(null);
-  const imageRef = useRef(null); // Reference to Image component
-
+  const imageRef = useRef(null); 
+  
   const scrollToClothesSelector = () => {
     clothesSelectorRef.current.scrollIntoView({ behavior: 'smooth' });
   };

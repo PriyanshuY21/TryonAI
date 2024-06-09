@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ImageNS from './images/ImageNS.png';
 import Add from './images/Addimg.png';
-import Added from './images/Added.png';
 
 const Upload = ({ selectedCloth, scrollToClothesSelector, setSelectedImage, imageRef }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -25,23 +25,42 @@ const Upload = ({ selectedCloth, scrollToClothesSelector, setSelectedImage, imag
         setError('File type should be JPEG or PNG');
         return;
       }
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setUploadedImage(e.target.result);
-        setUploadedImageName(file.name);
-        setError(null);
-      };
-      reader.readAsDataURL(file);
+      setUploadedImage(file);
+      setUploadedImageName(file.name);
+      setError(null);
     }
   };
 
-  const handleGenerateImage = () => {
+  const handleGenerateImage = async () => {
     setIsLoading(true);
-    setTimeout(() => {
-      setSelectedImage(uploadedImage);
+    try {
+      const formData = new FormData();
+      formData.append('clothId', selectedCloth.id);
+      formData.append('clothTitle', selectedCloth.title);
+      formData.append('clothSubtitle', selectedCloth.subtitle);
+      formData.append('clothImage', selectedCloth.src); 
+      formData.append('image', uploadedImage); 
+      
+      for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1]); 
+      }
+
+      const response = await axios.post('http://localhost:5000/api/images/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log(response.data.message);
+
+      setSelectedImage(URL.createObjectURL(uploadedImage));
       setIsLoading(false);
-      imageRef.current.scrollIntoView({ behavior: 'smooth' }); 
-    }, 7000);
+      imageRef.current.scrollIntoView({ behavior: 'smooth' });
+    } catch (error) {
+      setError('Error saving image');
+      console.error('Error saving image:', error);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -72,11 +91,6 @@ const Upload = ({ selectedCloth, scrollToClothesSelector, setSelectedImage, imag
               <p className="text-gray-500 opacity-65 mt-4">
                 <span className="text-accent cursor-pointer" onClick={scrollToClothesSelector}>Select another image</span>
               </p>
-              {uploadedImage && (
-                <div className="absolute top-4 right-4 w-[5rem] h-[5rem] border-2 border-black">
-                  <img src={uploadedImage} alt="Uploaded" className="w-full h-full object-cover" />
-                </div>
-              )}
             </>
           ) : (
             <>
@@ -90,7 +104,11 @@ const Upload = ({ selectedCloth, scrollToClothesSelector, setSelectedImage, imag
         </div>
         <div className="border border-dashed border-black p-6 w-[28rem] h-[25rem] flex flex-col justify-center items-center">
           <p className="Montserrat font-semibold text-3xl mb-4 text-accent">Virtual Try-On</p>
-          <img src={uploadedImage ? Added : Add} alt="Upload status" className={`w-[6rem] h-[6rem] transition-opacity duration-300 ${uploadedImage ? 'opacity-100' : 'opacity-50'}`} />
+          {uploadedImage ? (
+            <img src={URL.createObjectURL(uploadedImage)} alt="Uploaded" className="border border-black w-[6rem] h-[6rem]  object-cover transition-opacity duration-300" />
+          ) : (
+            <img src={Add} alt="Upload status" className="w-[6rem] h-[6rem] transition-opacity duration-300 opacity-50" />
+          )}
           <input
             type="file"
             id="upload"
@@ -103,7 +121,7 @@ const Upload = ({ selectedCloth, scrollToClothesSelector, setSelectedImage, imag
             {uploadedImage ? 'Change Image' : 'Upload Image'}
           </label>
           <button
-            className={`bg-accent/90 hover:bg-accent/100 text-white font-normal py-2 px-4 mt-4 rounded-lg cursor-pointer ${!isGenerateActive && 'opacity-50 cursor-not-allowed'}`}
+            className={`bg-accent/90 hover:bg-accent/100 text-white font-normal py-3 px-8 mt-4 rounded-lg cursor-pointer ${!isGenerateActive && 'opacity-50 cursor-not-allowed'}`}
             disabled={!isGenerateActive}
             onClick={handleGenerateImage}
           >
@@ -116,6 +134,6 @@ const Upload = ({ selectedCloth, scrollToClothesSelector, setSelectedImage, imag
       </div>
     </div>
   );
-}
+};
 
 export default Upload;
