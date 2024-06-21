@@ -54,8 +54,11 @@ const Upload = ({ selectedCloth, scrollToClothesSelector, setSelectedImage, imag
       console.log(response.data.message);
 
       setSelectedImage(URL.createObjectURL(uploadedImage));
-      setIsLoading(false);
-      imageRef.current.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        setIsLoading(false);
+        imageRef.current.scrollIntoView({ behavior: 'smooth' });
+      }, 3000); 
+      
     } catch (error) {
       setError('Error saving image');
       console.error('Error saving image:', error);

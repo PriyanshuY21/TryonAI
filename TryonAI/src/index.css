@@ -18,7 +18,7 @@
     border-top: 16px solid #000000;
     width: 120px;
     height: 120px;
-    animation: spin 5s linear infinite;
+    animation: spin 1.8s linear infinite;
   }
   
   @keyframes spin {
