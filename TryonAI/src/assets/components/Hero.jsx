@@ -6,25 +6,34 @@ const Hero = () => {
         <div
             className="flex flex-col justify-center items-center text-white text-center"
             style={{
-                backgroundImage: `url(${Herobg})`,
-                height: '60vh',
-                backgroundSize: 'cover',
+                backgroundImage: `url(${Herobg})`,  
+                height: '60vh',  
+                backgroundSize: 'cover',  
                 backgroundPosition: 'center'
             }}
-            >    
+        >    
             <div>
-                <h1 className="Montserrat font-semibold text-5xl pb-2" style={{color:'black'}}>See how clothes fit</h1>
+                <h1 className="Montserrat font-semibold text-5xl pb-2" style={{color:'black'}}>
+                    See how clothes fit
+                </h1>
                 <h2 className="Montserrat font-semibold text-5xl pb-6" style={{color: 'black'}}>
                     on you <span className="Pacifico font-normal text-5xl pb-6" style={{color :'#FF5C00'}}>instantly</span>
                 </h2>
-                <p className="Montserrat font-light pb-4"style={{color:'black'}}>Experience our smart fitting room and get quick results with our Virtual Cloth Assistant and find the perfect fit in no time!</p>
-                {/* <Link to="/Upload"> */}
+                <p className="Montserrat font-light pb-4" style={{color:'black'}}>
+                    Experience our smart fitting room and get quick results with our Virtual Cloth Assistant and find the perfect fit in no time!
+                </p>
+                
+                {/* Button with an onClick event to trigger scroll action */}
                 <button 
                     className="bg-accent/90 hover:bg-accent/100 text-white font-bold py-2 px-4 mt-4 rounded-lg"
                     style={{ position: 'relative', right: '4%', zIndex: '5' }}
+                    onClick={() => {
+                    //    console.log("Button clicked!");  
+                    }}
                 >
                     Select Clothes
                 </button>
+                {/* <Link to="/Upload"> */}
                 {/* </Link> */}
             </div>
         </div>

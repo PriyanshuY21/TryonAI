@@ -2,12 +2,14 @@ import React from 'react';
 import ImageNS from './images/ImageNS.png';
 
 const Image = ({ selectedImage, scrollToClothesSelector }) => {
+
+  // Handles download of selected image
   const handleDownload = () => {
-    if (selectedImage) {
-      const link = document.createElement('a');
-      link.href = selectedImage;
-      link.download = 'image.png';
-      link.click();
+    if (selectedImage) {  // Checks if there is selected image
+      const link = document.createElement('a');  // Create a temporary anchor element
+      link.href = selectedImage;  // Set the href to the image URL
+      link.download = 'image.png';  // Set the download attribute to specify the file name
+      link.click();  // Programmatically click the link to trigger the download
     }
   };
 
@@ -23,6 +25,7 @@ const Image = ({ selectedImage, scrollToClothesSelector }) => {
       </div>
       <div className="flex justify-center items-center mt-10 space-x-20">
         <div className="border bg-cloth rounded-3xl border-gray-300 p-6 w-[30rem] h-[25rem] flex flex-col justify-center items-center">
+          {/* Conditional rendering based on whether an image is selected */}
           {selectedImage ? (
             <img src={selectedImage} alt="Selected" className="max-w-full max-h-full" />
           ) : (
@@ -38,11 +41,14 @@ const Image = ({ selectedImage, scrollToClothesSelector }) => {
           )}
         </div>
         <div className="flex flex-col space-y-2 pl-4">
-          <button className="bg-accent/90 hover:bg-accent/100 text-white font-normal py-2 px-4 mt-4 rounded-lg" onClick={scrollToClothesSelector}>Choose Cloth</button>
+          {/* Triggers scroll to the clothes selector */}
+          <button className="bg-accent/90 hover:bg-accent/100 text-white font-normal py-2 px-4 mt-4 rounded-lg" onClick={scrollToClothesSelector}>
+            Choose Cloth
+          </button>
           <button
             onClick={handleDownload}
             className={`bg-accent/90 hover:bg-accent/100 text-white font-normal py-2 px-4 mt-4 rounded-lg ${!selectedImage ? 'opacity-50 cursor-not-allowed' : ''}`}
-            disabled={!selectedImage}
+            disabled={!selectedImage}  // Disable button if no image is selected
           >
             Download Image
           </button>

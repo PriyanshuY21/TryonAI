@@ -22,7 +22,7 @@ const Upload = () => {
           </div>
           <h1 className="Montserrat font-semibold text-4xl pb-5" style={{ color: 'black' }}>The Problem</h1>
           <p className="Montserrat font-normal text-xl px-4" style={{ color: 'black' }}>
-          Buying clothes online is tough because customers can't try them on first, making it hard to choose the right outfit.
+           Buying clothes online is tough because customers can't try them on first, making it hard to choose the right outfit.
           </p>
         </div>
         <div className="p-6 w-[31rem] h-[25rem] flex flex-col justify-center items-center pt-1.5">
